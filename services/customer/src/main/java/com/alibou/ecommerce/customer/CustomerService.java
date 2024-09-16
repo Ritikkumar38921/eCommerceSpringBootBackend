@@ -12,8 +12,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CustomerService {
 
-  private final CustomerRepository repository;
-  private final CustomerMapper mapper;
+  private CustomerRepository repository;
+  private CustomerMapper mapper;
+  
+  public CustomerService( CustomerRepository repository , CustomerMapper mapper ) {
+	  this.repository = repository;
+	  this.mapper = mapper;
+  }
 
   public String createCustomer(CustomerRequest request) {
     var customer = this.repository.save(mapper.toCustomer(request));
@@ -22,9 +27,7 @@ public class CustomerService {
 
   public void updateCustomer(CustomerRequest request) {
     var customer = this.repository.findById(request.id())
-        .orElseThrow(() -> new CustomerNotFoundException(
-            String.format("Cannot update customer:: No customer found with the provided ID: %s", request.id())
-        ));
+        .orElseThrow(() -> new CustomerNotFoundException(""));
     mergeCustomer(customer, request);
     this.repository.save(customer);
   }
@@ -33,6 +36,11 @@ public class CustomerService {
     if (StringUtils.isNotBlank(request.firstname())) {
       customer.setFirstname(request.firstname());
     }
+    
+    if(StringUtils.isBlank(request.lastname())) {
+    	customer.setLastname(request.lastname());
+    }
+    
     if (StringUtils.isNotBlank(request.email())) {
       customer.setEmail(request.email());
     }

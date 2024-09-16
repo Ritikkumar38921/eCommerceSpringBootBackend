@@ -1,11 +1,13 @@
 package com.alibou.ecommerce.exception;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-@EqualsAndHashCode(callSuper = true)
-@Data
+@SuppressWarnings("serial")
 public class BusinessException extends RuntimeException {
 
-  private final String msg;
+	private String msg;
+
+	public BusinessException(String msg) {
+		super(msg);
+		this.msg = msg;
+	}
+
 }

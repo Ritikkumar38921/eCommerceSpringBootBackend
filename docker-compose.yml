@@ -1,8 +1,9 @@
 services:
   postgresql:
     container_name: ms_pg_sql
-    image: postgres
+    image: postgres:16.3
     environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_USER: alibou
       POSTGRES_PASSWORD: alibou
       PGDATA: /data/postgres
@@ -18,8 +19,8 @@ services:
     container_name: ms_pgadmin
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      # PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      # PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - pgadmin:/var/lib/pgadmin
@@ -49,7 +50,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=alibou
 
   mongo-express:
-    image: mongo-express
+    image: mongo-express:0.54.0
     container_name: mongo_express
     restart: always
     ports:
@@ -60,7 +61,7 @@ services:
       - ME_CONFIG_MONGODB_SERVER=mongodb
 
   zookeeper:
-    image: confluentinc/cp-zookeeper:latest
+    image: wurstmeister/zookeeper:latest
     container_name: zookeeper
     environment:
       ZOOKEEPER_SERVER_ID: 1
@@ -71,7 +72,7 @@ services:
     networks:
       - microservices-net
   kafka:
-    image: confluentinc/cp-kafka:latest
+    image: wurstmeister/kafka:latest
     container_name: ms_kafka
     ports:
       - "9092:9092"

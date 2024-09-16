@@ -2,6 +2,8 @@ package com.alibou.ecommerce.product;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
-@RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductService service;
+	@Autowired
+    private ProductService service;
 
     @PostMapping
     public ResponseEntity<Integer> createProduct(
@@ -40,7 +42,7 @@ public class ProductController {
         return ResponseEntity.ok(service.findById(productId));
     }
 
-    @GetMapping
+    @GetMapping("/get")
     public ResponseEntity<List<ProductResponse>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }

@@ -1,0 +1,30 @@
+version: '3'
+services:
+  # app:
+  #   container_name: app
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/productdb
+  #     - SPRING_DATASOURCE_USERNAME=postgres
+  #     - SPRING_CONFIG_IMPORT=optional:configserver:http://host.docker.internal:8888
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - 5000:5000
+
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=productdb
+    volumes:
+    #  - postgres_data4:/var/lib/postgresql/data
+      - D:\init.sql:/docker-entrypoint-initdb.d/init-user-db.sql
+    ports:
+      - 5432:5432
+#volumes:
+ # postgres_data4:
