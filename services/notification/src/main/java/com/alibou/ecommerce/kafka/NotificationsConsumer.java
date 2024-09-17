@@ -51,7 +51,6 @@ public class NotificationsConsumer {
 		notification.setType(NotificationType.ORDER_CONFIRMATION);
 		notification.setOrderConfirmation(orderConfirmation);
 		repository.save(notification);
-		repository.save(notification);
 		var customerName = orderConfirmation.customer().firstname() + " " + orderConfirmation.customer().lastname();
 		emailService.sendOrderConfirmationEmail(orderConfirmation.customer().email(), customerName,
 				orderConfirmation.totalAmount(), orderConfirmation.orderReference(), orderConfirmation.products());
